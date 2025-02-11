@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Challenge for Kira</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, Kira!</h1>
+        <p>This is a special challenge made with love just for you. Solve the puzzles and enjoy the surprises!</p>
+        <button id="start-btn">Start the Challenge</button>
+    </div>
+
+    <div id="puzzle-container" class="hidden">
+        <h2 id="puzzle-question">Puzzle will appear here</h2>
+        <input type="text" id="puzzle-answer" placeholder="Your answer...">
+        <button id="submit-btn">Submit</button>
+        <p id="feedback"></p>
+        <button id="hint-btn" class="hidden">Get a hint</button>
+        <p id="hint"></p>
+    </div>
+
+    <div id="reward-container" class="hidden">
+        <h2>Congratulations!</h2>
+        <p id="reward-message">You solved a puzzle! Here is your surprise:</p>
+        <img id="reward-image" src="" alt="Surprise" class="hidden">
+        <p id="motivational-quote"></p>
+        <button id="next-puzzle">Next Puzzle</button>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
