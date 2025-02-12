@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kira's Valentine's Day Adventure</title>
+  <!-- Google Fonts import (optional) -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Grundlegende Styles für einen moderneren Look */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, #87369b, #000000);
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    #puzzle-container {
+      background: #fff;
+      max-width: 600px;
+      width: 90%;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+    h1, h2 {
+      margin-top: 0;
+      color: #d6336c;
+    }
+    p {
+      line-height: 1.6;
+    }
+    input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      width: 80%;
+      margin-bottom: 10px;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 10px 5px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #952ab0;
+      color: #fff;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #952ab0;
+    }
+    .rose {
+      font-size: 2em;
+    }
+    pre {
+      text-align: left;
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+    /* Styles für die Startseite */
+    #start-page h1 {
+      font-size: 2.5em;
+    }
+    #start-page p {
+      font-size: 1.2em;
+    }
+  </style>
+</head>
+<body>
+  <div id="puzzle-container"></div>
+
+  <script>
+    // Puzzle-Definitionen
+    var puzzles = [
+      {
+        question: "Puzzle 1: Riddle\n\nI speak without a mouth and hear without ears.\nI have nobody, but I come alive with the wind.\n\nWhat am I?",
+        answer: "echo",
+        hint: "It repeats what you say."
+      },
+      {
+        question: "Puzzle 2: What's the name of the undead dragon in GoT?\n\n",
+        answer: "Viserion",
+        hint: "He got named by Daenerys brother, who got killed by Khal Drogo."
+      },
+      {
+        question: "Puzzle 3: Math Challenge\n\nAdd all the digits of your birthdate (20.04.1996). What is the sum?",
+        answer: "31",
+        hint: "2 + 0 + 0 + 4 + 1 + 9 + 9 + 6 equals ?"
+      },
+      {
+        question: "Puzzle 4: Riddle\n\nI have towns but no houses, forests but no trees, and rivers but no water.\n\nWhat am I?",
+        answer: "map",
+        hint: "It's a representation, not the real thing."
+      },
+      {
+        question: "Puzzle 5: Escape Room Challenge\n\nA keypad requires a 3-digit code. Clues: a + b = 5, b + c = 7, a + c = 6.\nEnter the code as the three digits 'abc'.",
+        answer: "234",
+        hint: "Solve the equations: a = 2, b = 3, c = 4."
+      },
+      {
+        question: "Puzzle 6: Riddle\n\nI am not alive, but I grow; I don't have lungs, but I need air; I don't have a mouth, but water kills me.\n\nWhat am I?",
+        answer: "fire",
+        hint: "It provides warmth but can be dangerous."
+      },
+      {
+        question: "Puzzle 7: Math Puzzle\n\nWhat is the next number in the sequence: 1, 4, 9, 16, ?",
+        answer: "25",
+        hint: "These are square numbers (1², 2², 3², 4², ...)."
+      },
+      {
+        question: "Puzzle 8: Cipher Challenge\n\nUsing a Caesar cipher with a shift of 2 (each letter shifted 2 positions back), decode the word:\n\n'aqs ctg gpqwij cpf pqxgf'",
+        answer: "you are enough and loved",
+        hint: "Shift each letter back by 2 positions in the alphabet."
+      },
+      {
+        question: "Puzzle 9: Riddle\n\nWhat is always in front of you but can’t be seen?",
+        answer: "future",
+        hint: "It is yet to come."
+      },
+      {
+        question: "Puzzle 10: Acrostic Puzzle\n\nRead the first letter of each line in the poem below to reveal a hidden word:\n\nDelight fills your eyes,\nRadiance lights the skies,\nAstonishing dreams come true,\nGlorious love, ever new,\nOnward hearts in flight,\nNurtured in endless light.\n\nWhat is the hidden word?",
+        answer: "dragon",
+        hint: "The first letters of each line form a mythical creature."
+      },
+      {
+        question: "Puzzle 11: Slytherin's Legacy\n\nSince you love all things magical and especially Slytherin, here’s a special challenge:\nUnscramble the letters 'ARLSAAZ' to reveal the first name of the founder of Slytherin House.",
+        answer: "salazar",
+        hint: "Think of a name associated with snakes, ambition, and cunning."
+      },
+      {
+        question: "Puzzle 12: Riddle\n\nI am the most meaningful person in someone elses life.\nI am able to fasten up the heartbeat of him, only with my smile.\nI am more important, than I could ever imagine.\nI don't believe it, but I am truly the world, to someone.\n\nWho am I?",
+        answer: "Kira",
+        hint: "Oh come on, you already know the answer. :)"
+      }
+    ];
+
+    var currentPuzzle = 0;
+    var attempts = 0;
+    var maxAttemptsBeforeHint = 5;
+    var hintsGiven = 0;
+    var maxHints = 3;
+
+    // Zeigt die Startseite mit einem persönlichen Grußtext
+    function showStartPage() {
+      var container = document.getElementById("puzzle-container");
+      container.innerHTML = `
+        <div id="start-page">
+          <h1>Welcome, Kira!</h1>
+          <p>
+            "You are doomed... to solve this puzzle!" 😈
+            <p>
+            Congratulations, brave soul! You have found yourself trapped in a mysterious realm, where the only way out is through wit, wisdom, and just a little bit of luck.<br>
+            Legends speak of a secret word—hidden deep within riddles, logic, and just enough trickery to keep things interesting.<br>
+            <p>Your mission?</p>
+            Unravel the mysteries, decode the clues, and prove your brilliance.<br>
+            But beware! The path ahead is filled with mind-bending challenges, cryptic messages, and perhaps even a sneaky trap or two.<br>
+            Should you fail... well, let's just say you might be stuck here forever.<br>
+            Just kidding... or am I?
+            </p>
+            <p>
+            Now, sharpen your mind, summon your courage, and let the challenge begin!
+            </p>
+          <button id="start-button">Start Adventure</button>
+        </div>
+      `;
+      document.getElementById("start-button").onclick = function() {
+        loadPuzzle(currentPuzzle);
+      };
+    }
+
+    // Lädt das aktuelle Puzzle
+    function loadPuzzle(index) {
+      // Zähler zurücksetzen
+      attempts = 0;
+      hintsGiven = 0;
+      var container = document.getElementById("puzzle-container");
+      container.innerHTML = "";
+
+      if (index < puzzles.length) {
+        var puzzle = puzzles[index];
+
+        // Puzzle-Frage anzeigen
+        var questionElem = document.createElement("pre");
+        questionElem.textContent = puzzle.question;
+        container.appendChild(questionElem);
+
+        // Eingabefeld für die Antwort
+        var inputElem = document.createElement("input");
+        inputElem.type = "text";
+        inputElem.id = "answerInput";
+        inputElem.placeholder = "Enter your answer here";
+        container.appendChild(inputElem);
+
+        container.appendChild(document.createElement("br"));
+
+        // Submit-Button
+        var submitButton = document.createElement("button");
+        submitButton.textContent = "Submit Answer";
+        submitButton.onclick = checkAnswer;
+        container.appendChild(submitButton);
+
+        // Hint-Button
+        var hintButton = document.createElement("button");
+        hintButton.textContent = "Get Hint";
+        hintButton.id = "hintButton";
+        hintButton.onclick = giveHint;
+        container.appendChild(hintButton);
+
+        // Feedback-Absatz
+        var feedbackElem = document.createElement("p");
+        feedbackElem.id = "feedback";
+        container.appendChild(feedbackElem);
+      } else {
+        // Finale Nachricht anzeigen
+        showFinalMessage();
+      }
+    }
+
+    // Überprüft die Antwort des Benutzers
+    function checkAnswer() {
+      var inputElem = document.getElementById("answerInput");
+      var userAnswer = inputElem.value.trim().toLowerCase();
+      var correctAnswer = puzzles[currentPuzzle].answer.toLowerCase();
+      var feedbackElem = document.getElementById("feedback");
+
+      if (userAnswer === correctAnswer) {
+        feedbackElem.innerHTML = "Correct! <span class='rose'>🌹</span> Great job, keep going!";
+        setTimeout(function(){
+          currentPuzzle++;
+          loadNextButton();
+        }, 1000);
+      } else {
+        attempts++;
+        if (attempts >= maxAttemptsBeforeHint && hintsGiven < maxHints) {
+          feedbackElem.textContent = "Incorrect, try again! If needed, click the 'Get Hint' button.";
+        } else {
+          feedbackElem.textContent = "Incorrect, try again!";
+        }
+      }
+    }
+
+    // Zeigt einen Hinweis an, wenn der Hint-Button geklickt wird
+    function giveHint() {
+      var feedbackElem = document.getElementById("feedback");
+      if (hintsGiven < maxHints) {
+        hintsGiven++;
+        feedbackElem.textContent = "Hint: " + puzzles[currentPuzzle].hint;
+        if (hintsGiven >= maxHints) {
+          document.getElementById("hintButton").disabled = true;
+        }
+      } else {
+        feedbackElem.textContent = "No more hints available for this puzzle.";
+      }
+    }
+
+    // Lädt einen "Next Puzzle"-Button nach korrekter Lösung
+    function loadNextButton() {
+      var container = document.getElementById("puzzle-container");
+      container.innerHTML = "";
+      var nextButton = document.createElement("button");
+      nextButton.textContent = "Next Puzzle";
+      nextButton.onclick = function() {
+        loadPuzzle(currentPuzzle);
+      };
+      container.appendChild(nextButton);
+    }
+
+    // Zeigt die finale romantische Nachricht an
+    function showFinalMessage() {
+    var container = document.getElementById("puzzle-container");
+    container.innerHTML = `
+        <h2>Congratulations, Kira!</h2>
+        <p>You have solved all the puzzles.</p>
+        <p>What did you win? A special letter, just for you:</p>
+        <div style="border:1px solid #ccc; padding:20px; margin-top:20px;">
+            <p>Dear Kira,</p>
+            <p>
+                I hope you enjoyed this little adventure I created for you.  
+                You are truly amazing, and I am so grateful to have you in my life.  
+                Your intelligence, kindness, and beauty never cease to amaze me.  
+            </p>
+            <p>
+                Words could never fully express how much you mean to me and how blessed I feel to have you by my side.  
+                Your smile and laughter are like balm for my soul, washing away all the worries of the world.  
+                Seeing you happy makes me happy, and I hope to see that happiness for the rest of our lives.  
+            </p>
+            <p>
+                I don't even want to imagine a life without you, because you are my life, my love, my everything.  
+                I couldn't put it better than the great poet Rumi:  
+                <i>"You are not a drop in the ocean. You are the entire ocean in a drop."</i>  
+            </p>
+            <p>
+                I don't want to overwhelm you with my love, though. I just want you to know that you are worth more than you could ever imagine,  
+                and I will always be here for you, no matter what.  
+            </p>
+            <p>
+                I hope you have a wonderful Valentine's Day and enjoyed this little surprise.  
+            </p>
+        </div>
+        <p>Happy Valentine's Day!</p>
+        <p>With all my love, Your Chris (Jack) 🌹</p>
+    `;
+}
+
+
+
+    // Starte das Abenteuer mit der Startseite
+    showStartPage();
+  </script>
+</body>
+</html>
