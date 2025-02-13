@@ -74,6 +74,7 @@
     #start-page p {
       font-size: 1.2em;
     }
+    /* Der Liebesbrief wird zunächst verborgen */
     #hidden-message {
       display: none;
       margin-top: 20px;
@@ -96,7 +97,6 @@
       0% { transform: translateY(0) scale(1); opacity: 0.7; }
       100% { transform: translateY(-600px) scale(1.2); opacity: 0; }
     }
-    
   </style>
 </head>
 <body>
@@ -116,7 +116,7 @@
         hint: "He got named by Daenerys brother, who got killed by Khal Drogo."
       },
       {
-        question: "Puzzle 3: Spell riddle\n\nI bring light into the dark, Yet I do not burn.\n\n Which spell am I?",
+        question: "Puzzle 3: Spell riddle\n\nI bring light into the dark, Yet I do not burn.\n\nWhich spell am I?",
         answer: "Lumos",
         hint: "It's working like a torch."
       },
@@ -304,12 +304,13 @@
 
     // Zeigt die finale romantische Nachricht an
     function showFinalMessage() {
-    var container = document.getElementById("puzzle-container");
-    container.innerHTML = `
+      var container = document.getElementById("puzzle-container");
+      container.innerHTML = `
         <h2>Congratulations, Kira!</h2>
         <p>You have solved all the puzzles.</p>
         <p>What did you win? A special letter, just for you:</p>
-        <div style="border:1px solid #ccc; padding:20px; margin-top:20px;">
+        <button onclick="toggleHiddenMessage()">Reveal Letter</button>
+        <div id="hidden-message" style="display: none; border:1px solid #ccc; padding:20px; margin-top:20px;">
             <p>Dear Kira,</p>
             <p>
                 I hope you enjoyed this little adventure I created for you.  
@@ -336,13 +337,20 @@
         </div>
         <p>Happy Valentine's Day!</p>
         <p>With all my love, Your Chris (Jack) 🌹</p>
-    `;
+      `;
 
-launchBalloons();
+      // Starte die Ballon-Animation erst beim finalen Auftritt
+      launchBalloons();
     }
 
-    function showHiddenMessage() {
-      document.getElementById("hidden-message").style.display = "block";
+    // Toggle-Funktion, um den Liebesbrief anzuzeigen/verbergen
+    function toggleHiddenMessage() {
+      var hidden = document.getElementById("hidden-message");
+      if (hidden.style.display === "none") {
+        hidden.style.display = "block";
+      } else {
+        hidden.style.display = "none";
+      }
     }
 
     function launchBalloons() {
@@ -355,8 +363,6 @@ launchBalloons();
         setTimeout(() => balloon.remove(), 5000);
       }
     }
-    showFinalMessage();
-
 
     // Starte das Abenteuer mit der Startseite
     showStartPage();
