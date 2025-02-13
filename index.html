@@ -73,6 +73,12 @@
     #start-page p {
       font-size: 1.2em;
     }
+  .riddle-text {
+  font-size: 1.5em; /* Größere Schrift für Rätsel */
+  font-weight: bold; /* Optional: Fett */
+  color: #d6336c; /* Optional: Farbe anpassen */
+}
+
   </style>
 </head>
 <body>
@@ -272,6 +278,10 @@
       };
       container.appendChild(nextButton);
     }
+      var questionElem = document.createElement("pre");
+      questionElem.textContent = puzzle.question;
+      questionElem.classList.add("riddle-text"); // Klasse hinzufügen
+      container.appendChild(questionElem);
 
     // Zeigt die finale romantische Nachricht an
     function showFinalMessage() {
