@@ -74,7 +74,29 @@
     #start-page p {
       font-size: 1.2em;
     }
-
+    #hidden-message {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      background: #f9f9f9;
+      border-radius: 5px;
+    }
+    .balloon {
+      position: absolute;
+      bottom: -100px;
+      width: 50px;
+      height: 70px;
+      background: red;
+      border-radius: 50%;
+      opacity: 0.7;
+      animation: float 5s ease-in infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(0) scale(1); opacity: 0.7; }
+      100% { transform: translateY(-600px) scale(1.2); opacity: 0; }
+    }
+    
   </style>
 </head>
 <body>
@@ -99,17 +121,17 @@
         hint: "It's working like a torch."
       },
       {
-        question: "Puzzle 4: Riddle\n\nI have towns but no houses, forests but no trees, and rivers but no water.\n\nWhat am I?",
+        question: "Puzzle 4: Riddle\n\nI have towns but no houses,\nforests but no trees,\nand rivers but no water.\n\nWhat am I?",
         answer: "map",
         hint: "It's a representation, not the real thing."
       },
       {
-        question: "Puzzle 5: Escape Room Challenge\n\nA keypad requires a 3-digit code. Clues: a + b = 5, b + c = 7, a + c = 6.\nEnter the code as the three digits 'abc'.",
+        question: "Puzzle 5: Escape Room Challenge\n\nA keypad requires a 3-digit code.\nClues: a + b = 5, b + c = 7, a + c = 6.\nEnter the code as the three digits 'abc'.",
         answer: "234",
         hint: "Solve the equations: a = 2, b = 3, c = 4."
       },
       {
-        question: "Puzzle 6: Riddle\n\nI am not alive, but I grow; I don't have lungs, but I need air; I don't have a mouth, but water kills me.\n\nWhat am I?",
+        question: "Puzzle 6: Riddle\n\nI am not alive, but I grow;\nI don't have lungs, but I need air;\nI don't have a mouth, but water kills me.\n\nWhat am I?",
         answer: "fire",
         hint: "It provides warmth but can be dangerous."
       },
@@ -119,8 +141,8 @@
         hint: "These are square numbers (1², 2², 3², 4², ...)."
       },
       {
-        question: "Puzzle 8: Cipher Challenge\n\nUsing a Caesar cipher with a shift of 2, decode the word:\n\n'aqs ctg gpqwij cpf pqxgf'",
-        answer: "you are enough and loved",
+        question: "Puzzle 8: Cipher Challenge\n\nUsing a Caesar cipher with a shift of 2, decode the word:\n\n'k co gpqwij cpf pqxgf'",
+        answer: "I am enough and loved",
         hint: "Shift each letter back by 2 positions in the alphabet."
       },
       {
@@ -129,12 +151,12 @@
         hint: "It is yet to come."
       },
       {
-        question: "Puzzle 10: Acrostic Puzzle\n\nRead the first letter of each line in the poem below to reveal a hidden word:\n\nDelight fills your eyes,\nRadiance lights the skies,\nAstonishing dreams come true,\nGlorious love, ever new,\nOnward hearts in flight,\nNurtured in endless light.\n\nWhat is the hidden word?",
+        question: "Puzzle 10: Acrostic Puzzle\n\nRead the first letter of each line in the poem below\nto reveal a hidden word:\n\nDelight fills your eyes,\nRadiance lights the skies,\nAstonishing dreams come true,\nGlorious love, ever new,\nOnward hearts in flight,\nNurtured in endless light.\n\nWhat is the hidden word?",
         answer: "dragon",
         hint: "The first letters of each line form a mythical creature."
       },
       {
-        question: "Puzzle 11: Slytherin's Legacy\n\nSince you love all things magical and especially Slytherin, here’s a special challenge:\nUnscramble the letters 'ARLSAAZ' to reveal the first name of the founder of Slytherin House.",
+        question: "Puzzle 11: Slytherin's Legacy\n\nSince you love all things magical and especially Slytherin,\nhere’s a special challenge:\nUnscramble the letters\n'ARLSAAZ'\nto reveal the first name of the founder of Slytherin House.",
         answer: "salazar",
         hint: "Think of a name associated with snakes, ambition, and cunning."
       },
@@ -315,8 +337,25 @@
         <p>Happy Valentine's Day!</p>
         <p>With all my love, Your Chris (Jack) 🌹</p>
     `;
-}
 
+launchBalloons();
+    }
+
+    function showHiddenMessage() {
+      document.getElementById("hidden-message").style.display = "block";
+    }
+
+    function launchBalloons() {
+      for (let i = 0; i < 20; i++) {
+        let balloon = document.createElement("div");
+        balloon.classList.add("balloon");
+        balloon.style.left = Math.random() * 100 + "vw";
+        balloon.style.animationDuration = (Math.random() * 3 + 2) + "s";
+        document.body.appendChild(balloon);
+        setTimeout(() => balloon.remove(), 5000);
+      }
+    }
+    showFinalMessage();
 
 
     // Starte das Abenteuer mit der Startseite
